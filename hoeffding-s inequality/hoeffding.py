@@ -37,7 +37,7 @@ std_deviation=[]
 for i in range(40,bin_size+1,40):
     std_dev=0
     for j in range(100):
-        std_dev = std_dev + (mu-(plot[l.index(i)][j]))**2
+        std_dev = std_dev + (plot_final[l.index(i)]-(plot[l.index(i)][j]))**2
     std_deviation.append((std_dev/100)**0.5)
 
 x = [item for item in l]
