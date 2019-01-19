@@ -28,6 +28,11 @@ x_out=x_out1+x_out2
 y_out=y_out1+y_out2
 o_out=[-1]*60
 
+plt.plot(x_in, y_in, color='green', linewidth = 0, marker='o', markerfacecolor='green', markersize=3,label="output : 1")
+plt.plot(x_out, y_out, color='blue', linewidth = 0, marker='o', markerfacecolor='blue', markersize=3,label = "output : -1")
+plt.legend()
+plt.show()
+
 fig=plt.figure()
 ax=fig.add_subplot(1,1,1)
 plt.plot(x_in, y_in, color='green', linewidth = 0, marker='o', markerfacecolor='green', markersize=3,label="output : 1")
