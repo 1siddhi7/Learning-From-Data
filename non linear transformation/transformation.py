@@ -84,7 +84,7 @@ train_data = transformed_data[:cut_point]
 test_data = transformed_data[cut_point:]
 
 
-#applying perceptron learning algorithm on transforming_data
+#applying perceptron learning algorithm on transformed_data
 def sign(x):
     if x>=0:
         return 1
