@@ -14,9 +14,6 @@ from sklearn.model_selection import cross_val_score
 from sklearn.svm import SVC 
 from sklearn import metrics
 from sklearn.preprocessing import StandardScaler 
-from sklearn.metrics.pairwise import euclidean_distances
-
-#from qpsolvers import solve_qp
 
 m = np.load('india_map.npy')
 H, W = m.shape
@@ -29,7 +26,7 @@ print(data_original.shape, labels_original.shape)
 print(data_original)
 print(labels_original)
 
-N = 20000
+N = 30000
 idx = np.random.choice(len(data_original), size=N)
 data = data_original[idx]
 labels = labels_original[idx]
@@ -42,16 +39,7 @@ scaled_data_original = scaler.transform(data_original)
 
 gammas = 10**np.linspace(1,4,6)
 
-def gaussian_kernel(X, Y):
-	    kernel = euclidean_distances(X, Y) ** 2
-	    kernel = kernel*(-150)
-	    kernel = np.exp(kernel)
-	    return kernel
-
-
-
 cv_scores = []
-
 
 for item in gammas:
     print("gamma =", item)
