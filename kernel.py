@@ -22,23 +22,21 @@ labels_original = m.flatten()
 labels_original = 1*labels_original
 labels_original[labels_original == 0] = -1
 
-print(data_original.shape, labels_original.shape)
-print(data_original)
-print(labels_original)
-
+#Subsample data
 N = 30000
 idx = np.random.choice(len(data_original), size=N)
 data = data_original[idx]
 labels = labels_original[idx]
 x_train, x_test, y_train, y_test = train_test_split(data, labels,test_size=0.20)
 
+#Scaling th features
 scaler = StandardScaler() 
 scaled_x_train = scaler.fit_transform(x_train)
 scaled_x_test = scaler.transform(x_test)
 scaled_data_original = scaler.transform(data_original)
 
+#Using 5-fold cross validation to find the best value of gamma for SVM using rbf kernel
 gammas = 10**np.linspace(1,4,6)
-
 cv_scores = []
 
 for item in gammas:
@@ -55,7 +53,7 @@ for item in gammas:
     print(y_pred.shape) 
     print("Accuracy on training data:",metrics.accuracy_score(y_test, y_pred))
 
-
+#plotting decision boundary for best value of gamma
 i = np.argmax(cv_scores)
 gamma = gammas[i]
 print("best gamma =", gamma)
@@ -64,7 +62,7 @@ print("plotting decision boundary")
 svclassifier_best = SVC(C = 5, kernel='rbf', gamma = gamma) 
 svclassifier_best.fit(scaled_x_train, y_train)
 data_pred = svclassifier_best.predict(scaled_data_original) 
-print("Accuracy:",metrics.accuracy_score(labels_original, data_pred ))
+print("Accuracy on entire data:",metrics.accuracy_score(labels_original, data_pred ))
 idx_green = np.where(data_pred == 1)
 idx_red = np.where(data_pred == -1)
 
