@@ -58,7 +58,7 @@ for item in 10**gammas:
 
 #plotting decision boundary for best value of gamma
 i = np.argmax(cv_scores)
-gamma = gammas[i]
+gamma = 10**gammas[i]
 print("best gamma =", gamma)
 print("plotting decision boundary")
 
