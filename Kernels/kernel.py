@@ -23,7 +23,7 @@ labels_original = 1*labels_original
 labels_original[labels_original == 0] = -1
 
 #Subsample data
-N = 30000
+N = 15000
 idx = np.random.choice(len(data_original), size=N)
 data = data_original[idx]
 labels = labels_original[idx]
@@ -36,10 +36,12 @@ scaled_x_test = scaler.transform(x_test)
 scaled_data_original = scaler.transform(data_original)
 
 #Using 5-fold cross validation to find the best value of gamma for SVM using rbf kernel
-gammas = 10**np.linspace(1,4,6)
+gammas = np.linspace(-7,5,14)
 cv_scores = []
+test_scores = []
+train_scores = []
 
-for item in gammas:
+for item in 10**gammas:
     print("gamma =", item)
     
     svclassifier = SVC(C = 5, kernel='rbf', gamma = item) 
@@ -50,8 +52,9 @@ for item in gammas:
     svclassifier.fit(scaled_x_train, y_train)
     
     y_pred = svclassifier.predict(scaled_x_test) 
-    print(y_pred.shape) 
-    print("Accuracy on training data:",metrics.accuracy_score(y_test, y_pred))
+    y_pred_train = svclassifier.predict(scaled_x_train)    
+    test_scores.append(metrics.accuracy_score(y_test, y_pred))
+    train_scores.append(metrics.accuracy_score(y_train, y_pred_train))
 
 #plotting decision boundary for best value of gamma
 i = np.argmax(cv_scores)
@@ -61,6 +64,8 @@ print("plotting decision boundary")
 
 svclassifier_best = SVC(C = 5, kernel='rbf', gamma = gamma) 
 svclassifier_best.fit(scaled_x_train, y_train)
+sp_scaled = svclassifier_best.support_vectors_
+sp = scaler.inverse_transform(sp_scaled)
 data_pred = svclassifier_best.predict(scaled_data_original) 
 print("Accuracy on entire data:",metrics.accuracy_score(labels_original, data_pred ))
 idx_green = np.where(data_pred == 1)
@@ -70,10 +75,9 @@ data_green = data_original[idx_green]
 data_red = data_original[idx_red]
 
     
-plt.plot(data_green[:, 0], data_green[:, 1], color='green', linewidth = 0, marker='o', 
-         markerfacecolor='green', markersize=2,label="output : in India")
-plt.plot(data_red[:, 0], data_red[:, 1], color='red', linewidth = 0, marker='o', 
-         markerfacecolor='red', markersize=2,label="output : out of India")
+plt.scatter(data_green[:, 0], data_green[:, 1], color='green', s=2,label="output : in India")
+plt.scatter(data_red[:, 0], data_red[:, 1], color='red', s=2,label="output : out of India")
+plt.scatter(sp[:, 0], sp[:, 1], color='black', s=2,label="support vectors")
 
 plt.xlabel('x')
 plt.ylabel('y')
