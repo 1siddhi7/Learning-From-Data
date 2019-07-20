@@ -37,7 +37,6 @@ scaled_data_original = scaler.transform(data_original)
 K = 5896
 kmeans = KMeans(n_clusters = K).fit(scaled_x_train)
 
-
 scaled_centers = kmeans.cluster_centers_
 centers = scaler.inverse_transform(scaled_centers)
 
@@ -48,8 +47,9 @@ for i in range(x_train.shape[0]):
     for j in range(K):
         phi[i][j] = np.exp(-gamma*(np.linalg.norm(scaled_x_train[i] - scaled_centers[j]))**2)
         
+#calculating weights vector
 x_d = np.matmul(np.linalg.inv(np.matmul(phi.T,phi)),phi.T)
-w = np.matmul(x_d,y_train)
+w = np.matmul(x_d,y_train) 
 
 def hypothesis(x):
     ans = 0
