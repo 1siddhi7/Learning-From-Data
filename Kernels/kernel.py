@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat Jun 29 19:51:25 2019
-
 @author: siddhi
 """
 
@@ -75,10 +74,10 @@ data_green = data_original[idx_green]
 data_red = data_original[idx_red]
 
     
-plt.scatter(data_green[:, 0], data_green[:, 1], color='green', s=2,label="output : in India")
-plt.scatter(data_red[:, 0], data_red[:, 1], color='red', s=2,label="output : out of India")
-plt.scatter(sp[:, 0], sp[:, 1], color='black', s=2,label="support vectors")
-
+plt.scatter(data_green[:, 1], data_green[:, 0], color='green', s=2,label="output : in India")
+plt.scatter(data_red[:, 1], data_red[:, 0], color='red', s=2,label="output : out of India")
+plt.scatter(sp[:, 1], sp[:, 0], color='black', s=2,label="support vectors")
+plt.gca().invert_yaxis()
 plt.xlabel('x')
 plt.ylabel('y')
 plt.legend()
