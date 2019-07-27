@@ -35,7 +35,7 @@ scaled_x_test = scaler.transform(x_test)
 scaled_data_original = scaler.transform(data_original)
 
 #Using 5-fold cross validation to find the best value of gamma for SVM using rbf kernel
-gammas = np.linspace(-7,5,14)
+gammas = np.linspace(0,3,5)
 cv_scores = []
 test_scores = []
 train_scores = []
